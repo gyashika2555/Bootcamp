@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    1.let, const, and var
+    2. hoisting and tdz
+    3. types of functions
+    regular function
+    arrow function
+    callback function
+    first order function
+    higher order function
+    self invoking function
+
+    <script>
+
+
+        // <-- regular function -->
+        function Demo(a, b) {
+            console.log(a + b)
+        }
+        Demo(5, 10)
+
+
+        // < --arrow function -->
+        const Demo = () => {
+            // console.log(a+B)
+            return a + b
+        }
+        console.log(Demo(5, 10))
+
+
+        // call back function
+        callback = demo
+        function sample(callback) {
+            console.log("sample");
+            callback();
+        }
+    // < -- function demo() {
+    //         console.log("demo1")
+    //     } -->
+            sample(demo);
+        sample(() => {
+            console.log("demo")
+        });
+
+    // < --filter function -->
+            let arr = [1, 2, 3, 4, 5]
+        let newarr = arr.filter((x) => x > 3)
+        console.log(newarr)
+
+            // < --Synchronous Function
+            // js is syn but most of the function are perform with async-- >
+        console.log("1st");
+          function demo(){
+            console.log("2nd");
+        }
+        demo()
+        console.log("3rd");
+
+    // Set Timeout Function -> Async ,
+    //   js fast excutes sync code
+        setTimeout(() => {
+            console.log("hello")
+        }, 3000)
+
+        document.querySelector(".").textContent = "hamza"
+        Runner.prototype.gameOver = () => { }
+
+
+        // callback function
+        // callback=demo
+        function sample(callback) {
+            console.log("sample");
+            callback();
+        }
+        // function demo() {
+        // console.log("demo1");
+        // }
+        sample(() => {
+            console.log("demo1")
+        });
+
+
+
+        //closure
+
+        function enrollStudent() {
+            var name = "Nitin";
+            console.log("Enrolled Successfully")
+            function attendance() {
+                console.log(name, "Attendance Marked")
+            }
+            return attendance
+        }
+        var v = enrollStudent()
+        v()
+        //1000 codes....
+        v()
+        //1000code
+        v()
+    </script>
+</body>
+
+</html>

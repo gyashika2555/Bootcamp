@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    CallBack function 
+SettTimeout(()=>{
+    console.log("1")
+    SettTimeout(()=>{
+        console.log("2")
+        SettTimeout(()=>{
+             console.log("3")
+        },1000)     
+    },1000)
+},1000)
+   
+   hard to debug
+   less maintainanbility
+  
+   <!--Promise  -->
+   let pro = Promise ((res, rej)=> {
+    var quiz= "top"
+    if(quiz==="top"){
+        res()
+    }
+    else{
+        rej()
+    }
+})
+pro.then(()=> console.log("resolve")).catch(()=> console.log("reject")) 
+
+
+event loop is a consistently running process which checks the call stack is empty or not . if it found the call 
+stack is empty (all the sync code is already executed ) then it will push one by one async function from callback queue to the call stack function 
+</body>
+</html> 
