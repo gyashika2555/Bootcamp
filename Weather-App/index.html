@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weather Vibes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple-deep: #4A1E8C;
+      --purple-mid:  #7B3FE4;
+      --purple-soft: #A066F5;
+      --pink-accent: #F06292;
+      --sky-blue:    #64B5F6;
+      --card-bg:     rgba(255,255,255,0.92);
+      --text-dark:   #1a1a2e;
+      --text-muted:  #6b5b8a;
+      --radius-lg:   24px;
+      --radius-md:   14px;
+      --shadow:      0 20px 60px rgba(74,30,140,0.22);
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #6a0dad 0%, #9b4dca 40%, #d680ff 75%, #ff9de2 100%);
+      font-family: 'Inter', sans-serif;
+      padding: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 420px;
+      padding: 36px 32px 32px;
+      backdrop-filter: blur(12px);
+    }
+
+    .header { text-align: center; margin-bottom: 28px; }
+    .logo {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple-mid), var(--pink-accent));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px;
+      margin: 0 auto 14px;
+      box-shadow: 0 4px 18px rgba(123,63,228,0.35);
+    }
+    .header h1 {
+      font-family: 'Nunito', sans-serif;
+      font-size: 2rem; font-weight: 900;
+      background: linear-gradient(90deg, var(--purple-deep), var(--purple-soft), var(--pink-accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .header p { color: var(--text-muted); font-size: 0.85rem; margin-top: 4px; }
+
+    .search-row { display: flex; gap: 10px; margin-bottom: 28px; }
+    .search-row input {
+      flex: 1;
+      padding: 13px 18px;
+      border: 2px solid #e0d4f5;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      outline: none;
+      color: var(--text-dark);
+      transition: border-color 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .search-row input:focus { border-color: var(--purple-soft); }
+    .search-row input::placeholder { color: #b5a4cc; }
+    .search-row button {
+      padding: 13px 22px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--purple-mid), var(--purple-deep));
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      font-family: 'Nunito', sans-serif;
+      white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(123,63,228,0.4);
+    }
+    .search-row button:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(123,63,228,0.5); }
+    .search-row button:active { transform: translateY(0); }
+    .search-row button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .idle-state { text-align: center; padding: 10px 0 8px; }
+    .idle-icons { font-size: 3rem; margin-bottom: 16px; display: flex; justify-content: center; gap: 18px; }
+    .idle-state h3 { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.15rem; color: var(--text-dark); margin-bottom: 6px; }
+    .idle-state p { color: var(--text-muted); font-size: 0.875rem; }
+
+    .loading-state { text-align: center; padding: 20px 0; display: none; }
+    .spinner {
+      width: 44px; height: 44px;
+      border: 3px solid #e0d4f5;
+      border-top-color: var(--purple-mid);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 14px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-state p { color: var(--text-muted); font-size: 0.9rem; }
+
+    .result-state { display: none; }
+
+    .city-hero {
+      text-align: center;
+      background: linear-gradient(135deg, var(--purple-mid) 0%, var(--purple-soft) 50%, var(--pink-accent) 100%);
+      border-radius: var(--radius-md);
+      padding: 24px 20px;
+      color: #fff;
+      margin-bottom: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .city-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .weather-emoji { font-size: 3.5rem; margin-bottom: 8px; display: block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); }
+    .city-name { font-family: 'Nunito', sans-serif; font-size: 1.5rem; font-weight: 900; }
+    .temp-display { font-family: 'Nunito', sans-serif; font-size: 3rem; font-weight: 900; line-height: 1; margin: 4px 0; }
+    .condition-text { font-size: 0.95rem; opacity: 0.9; text-transform: capitalize; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .stat-card {
+      background: linear-gradient(135deg, #f3eeff, #fdf0f8);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .stat-icon { font-size: 1.5rem; }
+    .stat-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-value { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem; color: var(--text-dark); }
+
+    .vibe-box {
+      background: linear-gradient(135deg, #f9f4ff, #fff0f7);
+      border-left: 3px solid var(--purple-soft);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 14px 16px;
+      font-size: 0.875rem;
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+    .vibe-label {
+      font-size: 0.72rem;
+      color: var(--purple-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .error-state { display: none; text-align: center; padding: 20px 0; }
+    .error-state .error-icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .error-state p { font-size: 0.9rem; color: #c0392b; }
+
+    .footer { text-align: center; margin-top: 24px; font-size: 0.78rem; color: var(--text-muted); }
+    .footer span { color: var(--pink-accent); }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div class="logo">🌈</div>
+    <h1>Weather Vibes</h1>
+    <p>✨ Discover the magic in every forecast ✨</p>
+  </div>
+
+  <div class="search-row">
+    <input type="text" id="cityInput" placeholder="Enter city name..." autocomplete="off"/>
+    <button id="searchBtn" onclick="getWeather()">Search 🔍</button>
+  </div>
+
+  <div class="idle-state" id="idleState">
+    <div class="idle-icons">⛅ 🌧️</div>
+    <h3>Ready for Weather Magic?</h3>
+    <p>Enter any city name and watch the magic happen! ✨</p>
+  </div>
+
+  <div class="loading-state" id="loadingState">
+    <div class="spinner"></div>
+    <p>Fetching weather vibes...</p>
+  </div>
+
+  <div class="result-state" id="resultState">
+    <div class="city-hero">
+      <span class="weather-emoji" id="weatherEmoji">⛅</span>
+      <div class="city-name" id="cityName">–</div>
+      <div class="temp-display" id="tempDisplay">–</div>
+      <div class="condition-text" id="conditionText">–</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-icon">💧</span>
+        <div>
+          <div class="stat-label">Humidity</div>
+          <div class="stat-value" id="humidity">–</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">💨</span>
+        <div>
+          <div class="stat-label">Wind</div>
+          <div class="stat-value" id="wind">–</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">👁️</span>
+        <div>
+          <div class="stat-label">Visibility</div>
+          <div class="stat-value" id="visibility">–</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-icon">🌡️</span>
+        <div>
+          <div class="stat-label">Feels Like</div>
+          <div class="stat-value" id="feelsLike">–</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vibe-box">
+      <div class="vibe-label">✦ Weather Vibe</div>
+      <div id="vibeText">–</div>
+    </div>
+  </div>
+
+  <div class="error-state" id="errorState">
+    <div class="error-icon">😕</div>
+    <p id="errorMsg">City not found. Please check the name and try again!</p>
+  </div>
+
+  <div class="footer">Made with <span>♥</span> by Weather Vibes</div>
+</div>
+
+<script>
+  const API_KEY = '1aa6a60107a9cf4678b49dcb0f7129f0';
+  const cityInput = document.getElementById('cityInput');
+  const searchBtn = document.getElementById('searchBtn');
+
+  cityInput.addEventListener('keydown', e => { if (e.key === 'Enter') getWeather(); });
+
+  function show(id) {
+    const states = ['idleState', 'loadingState', 'resultState', 'errorState'];
+    states.forEach(s => {
+      document.getElementById(s).style.display = s === id ? 'block' : 'none';
+    });
+  }
+
+  function getWeatherEmoji(id) {
+    if (id >= 200 && id < 300) return '⛈️';
+    if (id >= 300 && id < 400) return '🌦️';
+    if (id >= 500 && id < 600) return '🌧️';
+    if (id >= 600 && id < 700) return '❄️';
+    if (id >= 700 && id < 800) return '🌫️';
+    if (id === 800) return '☀️';
+    if (id === 801) return '🌤️';
+    if (id === 802) return '⛅';
+    if (id >= 803) return '☁️';
+    return '🌡️';
+  }
+
+  function getVibeText(data) {
+    const temp = Math.round(data.main.temp);
+    const condition = data.weather[0].main.toLowerCase();
+    const humidity = data.main.humidity;
+    const wind = Math.round(data.wind.speed * 3.6);
+
+    if (temp >= 35) return `It's scorching hot at ${temp}°C! 🥵 Stay hydrated, wear light clothes, and avoid going out midday.`;
+    if (temp >= 28) return `Warm and ${condition} at ${temp}°C. 😎 Great weather for a light outfit — just stay in the shade!`;
+    if (temp >= 20) return `Pleasant ${temp}°C with ${condition} skies. 🌿 Perfect day to be outside — maybe a walk or a coffee on the patio?`;
+    if (temp >= 10) return `Cool ${temp}°C with ${condition} conditions. 🧥 Grab a jacket before heading out!`;
+    if (temp >= 0) return `It's chilly at ${temp}°C! 🧣 Bundle up with a warm coat and scarf today.`;
+    return `Freezing ${temp}°C outside! ❄️ Stay warm, layer up, and watch out for ice.`;
+  }
+
+  async function getWeather() {
+    const city = cityInput.value.trim();
+    if (!city) { cityInput.focus(); return; }
+
+    show('loadingState');
+    searchBtn.disabled = true;
+
+    try {
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`;
+      const res = await fetch(url);
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || 'City not found');
+      }
+
+      const data = await res.json();
+
+      document.getElementById('weatherEmoji').textContent = getWeatherEmoji(data.weather[0].id);
+      document.getElementById('cityName').textContent = `${data.name}, ${data.sys.country}`;
+      document.getElementById('tempDisplay').textContent = `${Math.round(data.main.temp)}°C`;
+      document.getElementById('conditionText').textContent = data.weather[0].description;
+      document.getElementById('humidity').textContent = `${data.main.humidity}%`;
+      document.getElementById('wind').textContent = `${Math.round(data.wind.speed * 3.6)} km/h`;
+      document.getElementById('visibility').textContent = `${(data.visibility / 1000).toFixed(1)} km`;
+      document.getElementById('feelsLike').textContent = `${Math.round(data.main.feels_like)}°C`;
+      document.getElementById('vibeText').textContent = getVibeText(data);
+
+      show('resultState');
+    } catch (err) {
+      document.getElementById('errorMsg').textContent =
+        err.message === 'city not found'
+          ? '🔍 City not found. Please check the spelling and try again!'
+          : `⚠️ ${err.message}`;
+      show('errorState');
+    } finally {
+      searchBtn.disabled = false;
+    }
+  }
+</script>
+</body>
+</html>
