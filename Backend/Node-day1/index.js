@@ -8,10 +8,10 @@
 // console.log("yashika")
 
 const express= require("express")
-console.log(express)
+// console.log(express)
 
 const app = express()
-console.log(app);
+// console.log(app);
 
 app.get("/", (req,res)=>{
  res.send("this is home page")
