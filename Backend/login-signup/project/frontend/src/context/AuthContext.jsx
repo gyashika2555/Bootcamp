@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext(null);
 
-const STORAGE_KEY = 'acharya_auth';
+const STORAGE_KEY = 'login/signup_auth';
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(() => {

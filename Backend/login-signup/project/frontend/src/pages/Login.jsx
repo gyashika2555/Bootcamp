@@ -45,7 +45,7 @@ const Login = () => {
       subtitle="Enter your credentials to continue to your dashboard."
       footer={
         <span>
-          New to Acharya?{' '}
+          New to login/signup?{' '}
           <Link to="/signup" style={{ color: 'var(--color-ink)', fontWeight: 600 }}>
             Create an account
           </Link>

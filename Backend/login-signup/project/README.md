@@ -1,4 +1,4 @@
-# Acharya — Login/Signup Full Stack App
+# login/signup — Login/Signup Full Stack App
 
 A premium light-theme authentication app: Node/Express backend + React (Vite) frontend.
 

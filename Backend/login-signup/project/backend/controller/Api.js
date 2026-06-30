@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const saltRound = 10;
-const secretKey = process.env.JWT_SECRET || 'acharya';
+const secretKey = process.env.JWT_SECRET || 'login/signup';
 
 let arr = []; // in-memory database
 

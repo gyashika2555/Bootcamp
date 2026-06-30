@@ -6,7 +6,7 @@ const AuthLayout = ({ eyebrow, title, subtitle, children, footer }) => {
     <div className="auth-shell">
       <aside className="auth-brand">
         <div className="auth-brand__top">
-          <span className="auth-brand__mark">Acharya</span>
+          <span className="auth-brand__mark">login/signup</span>
         </div>
 
         <div className="auth-brand__body">
@@ -36,7 +36,7 @@ const AuthLayout = ({ eyebrow, title, subtitle, children, footer }) => {
         </div>
 
         <div className="auth-brand__bottom">
-          <p>&copy; {new Date().getFullYear()} Acharya Identity</p>
+          <p>&copy; {new Date().getFullYear()} login/signup Identity</p>
         </div>
       </aside>
 

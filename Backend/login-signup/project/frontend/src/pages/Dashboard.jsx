@@ -42,7 +42,7 @@ const Dashboard = () => {
   return (
     <div className="dash">
       <nav className="dash__nav">
-        <span className="dash__brand">Acharya</span>
+        <span className="dash__brand">login/signup</span>
         <div className="dash__user">
           <span style={{ fontSize: 13.5, color: 'var(--color-muted)' }}>
             {auth?.user?.email}
@@ -62,7 +62,7 @@ const Dashboard = () => {
         </span>
         <h1 className="dash__title">Welcome back, {displayName.split('@')[0]}.</h1>
         <p className="dash__subtitle">
-          Your token was issued by the Acharya auth service and verified against
+          Your token was issued by the login/signup auth service and verified against
           the protected /dashboard route on every visit.
         </p>
 
