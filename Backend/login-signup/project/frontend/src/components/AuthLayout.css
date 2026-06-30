@@ -1,0 +1,187 @@
+.auth-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.auth-brand {
+  background: linear-gradient(165deg, #1b2a4a 0%, #142038 65%, #0f1830 100%);
+  color: #f4f1e9;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px 56px;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-brand__mark {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.auth-brand__body {
+  max-width: 440px;
+  margin: auto 0;
+}
+
+.auth-brand__headline {
+  font-size: clamp(30px, 3.4vw, 42px);
+  font-weight: 500;
+  line-height: 1.12;
+  color: #fbfaf5;
+}
+
+.auth-brand__copy {
+  margin-top: 18px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(244, 241, 233, 0.66);
+  max-width: 380px;
+}
+
+.auth-brand__bottom {
+  font-size: 12px;
+  color: rgba(244, 241, 233, 0.4);
+}
+
+/* Signature element: stacked credential cards ("the ledger") */
+.ledger {
+  margin-top: 56px;
+  position: relative;
+  width: 280px;
+  height: 168px;
+}
+
+.ledger__card {
+  position: absolute;
+  width: 240px;
+  height: 140px;
+  border-radius: 14px;
+  border: 1px solid rgba(244, 241, 233, 0.14);
+  background: linear-gradient(155deg, rgba(244, 241, 233, 0.07), rgba(244, 241, 233, 0.02));
+  backdrop-filter: blur(2px);
+  padding: 18px;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ledger__card--1 {
+  left: 0;
+  top: 28px;
+  z-index: 3;
+  background: linear-gradient(155deg, #f4ead0 0%, #c9a227 120%);
+  border-color: rgba(201, 162, 39, 0.5);
+}
+
+.ledger__card--2 {
+  left: 22px;
+  top: 12px;
+  z-index: 2;
+  opacity: 0.85;
+}
+
+.ledger__card--3 {
+  left: 44px;
+  top: -4px;
+  z-index: 1;
+  opacity: 0.55;
+}
+
+.auth-brand:hover .ledger__card--1 {
+  transform: translate(-6px, 4px) rotate(-2deg);
+}
+
+.auth-brand:hover .ledger__card--2 {
+  transform: translate(2px, -2px) rotate(1deg);
+}
+
+.ledger__chip {
+  display: block;
+  width: 30px;
+  height: 22px;
+  border-radius: 4px;
+  background: rgba(27, 42, 74, 0.55);
+  margin-bottom: 22px;
+}
+
+.ledger__line {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(27, 42, 74, 0.28);
+}
+
+.ledger__card--2 .ledger__line,
+.ledger__card--3 .ledger__line {
+  background: rgba(244, 241, 233, 0.22);
+  margin-top: 64px;
+}
+
+.ledger__line--a {
+  width: 70%;
+}
+
+.ledger__line--b {
+  width: 45%;
+  margin-top: 8px;
+}
+
+.auth-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background: var(--color-bg);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 392px;
+}
+
+.auth-card__eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 14px;
+}
+
+.auth-card__title {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.auth-card__subtitle {
+  margin-top: 8px;
+  color: var(--color-muted);
+  font-size: 14.5px;
+}
+
+.auth-card__body {
+  margin-top: 32px;
+}
+
+.auth-card__footer {
+  margin-top: 24px;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+@media (max-width: 920px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-brand {
+    display: none;
+  }
+
+  .auth-panel {
+    padding: 24px 18px;
+  }
+}

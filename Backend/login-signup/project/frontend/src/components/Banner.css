@@ -1,0 +1,19 @@
+.banner {
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  font-size: 13.5px;
+  margin-bottom: 18px;
+  border: 1px solid transparent;
+}
+
+.banner--danger {
+  background: #fbeeed;
+  border-color: #f1d4d1;
+  color: var(--color-danger);
+}
+
+.banner--success {
+  background: #eaf5ef;
+  border-color: #cfe7da;
+  color: var(--color-success);
+}
