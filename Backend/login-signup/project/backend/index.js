@@ -13,6 +13,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/pages', routes);
+app.use('/', routes);
 
 const PORT = process.env.PORT || 8888;
 app.listen(PORT, () => {

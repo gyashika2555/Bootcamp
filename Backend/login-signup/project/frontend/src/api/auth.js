@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'https://login-signup-e69r.onrender.com';
+const envUrl = import.meta.env.VITE_API_URL;
+const BASE_URL = envUrl 
+  ? (envUrl.endsWith('/pages') ? envUrl : `${envUrl.replace(/\/$/, '')}/pages`)
+  : 'https://login-signup-e69r.onrender.com/pages';
 
 const client = axios.create({
   baseURL: BASE_URL,
